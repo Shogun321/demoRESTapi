@@ -48,17 +48,33 @@ public class Sender {
         // print status code from server
         System.out.println(response.statusCode());
     }
-    public void newtask(String logincredentials,JSONObject jsondata) {
+    public void newtask(String logincredentials,String jsondata) {
         try{
-            Map<Object, Object> data = new HashMap<>();
-
+            var values = new HashMap<String, String>() {{
+                put("name", "Mira Pavlovic");
+                put ("description", "Gore gore gore");
+            }};
+            Map<String, String> data = new HashMap<>(values);
+            /*var objectMapper = new ObjectMapper();
+            String requestBody = objectMapper
+                    .writeValueAsString(values);*/
+            //buildFormDataFromMap(data)
             String auth=getMd5(logincredentials);//username . password
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(buildFormDataFromMap(data))
                     .uri(URI.create("http://skupinska.c1.biz/tasks"))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsondata))
                     .setHeader("Content-Type", "text/json")
                     .setHeader("auth-token", auth)
                     .build();
+            //response updates here
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Ispisujem response:");
+            System.out.println(response.body());
+            System.out.println(response.request());
+            System.out.println(response.headers());
+            System.out.println(response.previousResponse());
+            // print status code from server
+            System.out.println(response.statusCode());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -74,9 +90,18 @@ public class Sender {
             builder.append("=");
             builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
-        System.out.println("evo print out");
-        System.out.println(builder.toString());
-        System.out.println(HttpRequest.BodyPublishers.ofString(builder.toString()));
+        return HttpRequest.BodyPublishers.ofString(builder.toString());
+    }
+    private static HttpRequest.BodyPublisher buildFormDataFromMapstring(Map<String,String> data) {
+        var builder = new StringBuilder();
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            if (builder.length() > 0) {
+                builder.append("&");
+            }
+            builder.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
+            builder.append("=");
+            builder.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+        }
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
     //takes string and turns into JSON object

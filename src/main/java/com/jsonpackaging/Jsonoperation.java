@@ -15,11 +15,11 @@ public class Jsonoperation {
         }
         System.out.println("Izlazim iz JSONoperation");
     }
-    public JSONObject newJson(){
+    public String newJson(){
         JSONObject item = new JSONObject();
         item.put("name", "test");
         item.put("description", "course1 ladida");
 
-        return item;
+        return item.toString();
     }
 }
