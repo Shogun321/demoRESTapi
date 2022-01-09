@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="parent" alignment="CENTER" prefHeight="680" prefWidth="480" spacing="20.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demorestapi.LoginController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <Pane id="loginPane" prefHeight="680.0" prefWidth="440.0">
+         <children>
+            <Label alignment="CENTER" layoutX="71.0" layoutY="349.0" text="UPORABNIK" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="name" alignment="CENTER" layoutX="71.0" layoutY="374.0" prefHeight="20.0" prefWidth="311.0" />
+            <Label alignment="CENTER" layoutX="71.0" layoutY="409.0" text="GESLO" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="pass" alignment="CENTER" layoutX="71.0" layoutY="429.0" prefHeight="17.0" prefWidth="311.0" />
+            <Button alignment="CENTER" layoutX="316.0" layoutY="466.0" mnemonicParsing="false" onMouseClicked="#login" text="PRIJAVA">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="128.0" layoutY="240.0" text="LOGIN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="64.0" />
+               </font>
+            </Label>
+            <ImageView id="versionIco" fitHeight="37.0" fitWidth="78.0" layoutX="181.0" layoutY="596.0" pickOnBounds="true" preserveRatio="true" />
+            <Label alignment="CENTER" layoutX="189.0" layoutY="633.0" text="iTasker v2.12" textFill="#ffffff3e">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Label>
+            <Separator layoutX="40.0" layoutY="317.0" prefHeight="6.0" prefWidth="337.0" />
+            <Separator layoutX="50.0" layoutY="327.0" prefHeight="6.0" prefWidth="381.0" />
+         </children></Pane>
+   </children>
+</VBox>
