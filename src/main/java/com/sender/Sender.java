@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Sender {
+
     // one instance, reuse
     private final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -36,7 +37,7 @@ public class Sender {
     private void update() throws Exception {
         // form parameters
         Map<Object, Object> data = new HashMap<>();
-        String auth=getMd5("bastrijan.111");//username . password
+        String auth=getMd5("vladimir.111");//username . password
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(buildFormDataFromMap(data))
                 .uri(URI.create("http://skupinska.c1.biz/tasks"))
@@ -63,7 +64,7 @@ public class Sender {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://skupinska.c1.biz/tasks"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsondata))
-                    .setHeader("Content-Type", "text/json")
+                    .setHeader("Content-Type", "text/json; utf-8")
                     .setHeader("auth-token", auth)
                     .build();
             //response updates here

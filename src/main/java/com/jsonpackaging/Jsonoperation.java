@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 public class Jsonoperation {
     private static JSONArray albums;
+    private int ID;
+    private String name, description, task_date;
     public Jsonoperation(JSONArray array) {
         System.out.println("Usao sam u Jsonoperation");
         albums=array;
@@ -21,5 +23,45 @@ public class Jsonoperation {
         item.put("description", "course1 ladida");
 
         return item.toString();
+    }
+
+    public static JSONArray getAlbums() {
+        return albums;
+    }
+
+    public static void setAlbums(JSONArray albums) {
+        Jsonoperation.albums = albums;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTask_date() {
+        return task_date;
+    }
+
+    public void setTask_date(String task_date) {
+        this.task_date = task_date;
     }
 }

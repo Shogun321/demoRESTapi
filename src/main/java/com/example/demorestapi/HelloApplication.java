@@ -19,13 +19,18 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class HelloApplication extends Application {
-
+    private Jsonoperation response;
     public static final int WIDTH = 640, HEIGHT = 800;
 
     private ArrayList<Image> img = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws IOException {
+        //sends initial request to download data
+        Sender sender = new Sender();
+        response = new Jsonoperation(sender.parseJSON());
+
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
 
         VBox root = fxmlLoader.load();
@@ -39,9 +44,9 @@ public class HelloApplication extends Application {
 
         stage.show();
 
-        Sender sender = new Sender();
-        Jsonoperation operator = new Jsonoperation(sender.parseJSON());
-        sender.newtask("bastrijan.111",operator.newJson());
+
+
+        sender.newtask("vladimir.111",response.newJson());
     }
 
     public static void main(String[] args) {
