@@ -2,6 +2,7 @@ package com.example.demorestapi;
 
 import com.jsonpackaging.Jsonoperation;
 import com.sender.Sender;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,6 +35,7 @@ public class App extends Application {
         //initilizing sender
         sender = new Sender();
         jsonoperator = new Jsonoperation(sender.parseJSON());
+
 
         App.stage = stage;
 
