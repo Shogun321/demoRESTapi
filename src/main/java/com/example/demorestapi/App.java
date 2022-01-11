@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class App extends Application {
-    private Jsonoperation jsonoperator;
-    private Sender sender;
+    public static Jsonoperation jsonoperator;
+    public static Sender sender;
     public static final int WIDTH = 480, HEIGHT = 680;
 
     public enum State{
@@ -32,13 +32,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //initilizing sender
+        //init sender
         sender = new Sender();
         jsonoperator = new Jsonoperation(sender.parseJSON());
 
-
         App.stage = stage;
-
         initScenes();
 
         stage.setTitle("iTasker Desktop");
@@ -49,20 +47,20 @@ public class App extends Application {
         stage.show();
 
         /*For testing purposes, should be moved to helloController*/
-        HashMap<String, String> mapToJSON = new HashMap<>();
+        /*HashMap<String, String> mapToJSON = new HashMap<>();
         mapToJSON.put("name", "Hashmap1");
         mapToJSON.put("description", "Delanje");
         sender.newtask(jsonoperator.newJson(mapToJSON));
 
         /*HashMap<String, String> delete = new HashMap<>();
         delete.put("task_id","43");
-        sender.delete(jsonoperator.newJson(delete));*/
+        sender.delete(jsonoperator.newJson(delete));
 
         HashMap<String, String> edit = new HashMap<>();
         edit.put("name","Trta");
         edit.put("description", "Mrta");
         edit.put("task_id","44");
-        sender.edit(jsonoperator.newJson(edit));
+        sender.edit(jsonoperator.newJson(edit));*/
     }
 
     public static void main(String[] args) {

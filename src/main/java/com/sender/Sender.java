@@ -1,5 +1,6 @@
 package com.sender;
 
+import com.example.demorestapi.utils.Callback;
 import org.json.JSONArray;
 
 import java.math.BigInteger;
@@ -20,7 +21,7 @@ public class Sender {
             .version(HttpClient.Version.HTTP_2)
             .build();
     private static HttpResponse<String> response;
-    private static String logincredentials = getMd5("vladimir.111");//username . password
+    private static String logincredentials = getMd5("bastrijan.111");//username . password
     public Sender() {
         try {//update load data once/first
             update();
