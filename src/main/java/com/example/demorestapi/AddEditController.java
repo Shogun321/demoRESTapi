@@ -32,6 +32,7 @@ public class AddEditController {
         mapToJSON.put("description", "Dela");
         //sender.newtask(response.newJson(mapToJSON));
     }
+    @FXML
     protected void cancel(){
         App.state = App.State.NONE;
         App.stage.setScene(App.tasks);
