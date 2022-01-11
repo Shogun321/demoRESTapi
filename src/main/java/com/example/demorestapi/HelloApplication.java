@@ -3,23 +3,23 @@ package com.example.demorestapi;
 import com.jsonpackaging.Jsonoperation;
 import com.sender.Sender;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.HashMap;
 
 public class HelloApplication extends Application {
-    private Jsonoperation response;
+    private Jsonoperation jsonoperator;
+    private Sender sender;
     public static final int WIDTH = 640, HEIGHT = 800;
 
     private ArrayList<Image> img = new ArrayList<>();
@@ -27,9 +27,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //sends initial request to download data
-        Sender sender = new Sender();
-        response = new Jsonoperation(sender.parseJSON());
-
+        sender = new Sender();
+        jsonoperator = new Jsonoperation(sender.parseJSON());
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
 
@@ -44,9 +43,21 @@ public class HelloApplication extends Application {
 
         stage.show();
 
+        /*For testing purposes, should be moved to helloController*/
+        HashMap<String, String> mapToJSON = new HashMap<>();
+        mapToJSON.put("name", "Hashmap1");
+        mapToJSON.put("description", "Delanje");
+        sender.newtask(jsonoperator.newJson(mapToJSON));
 
+        /*HashMap<String, String> delete = new HashMap<>();
+        delete.put("task_id","43");
+        sender.delete(jsonoperator.newJson(delete));*/
 
-        sender.newtask("vladimir.111",response.newJson());
+        HashMap<String, String> edit = new HashMap<>();
+        edit.put("name","Trta");
+        edit.put("description", "Mrta");
+        edit.put("task_id","44");
+        sender.edit(jsonoperator.newJson(edit));
     }
 
     public static void main(String[] args) {
@@ -83,5 +94,9 @@ public class HelloApplication extends Application {
         Image newImg = login.getImage() == this.img.get(0)?
                 this.img.get(1) : this.img.get(0);
         login.setImage(newImg);
+    }
+
+    public Sender getSender() {
+        return sender;
     }
 }

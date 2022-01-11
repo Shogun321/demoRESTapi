@@ -3,6 +3,8 @@ package com.jsonpackaging;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class Jsonoperation {
     private static JSONArray albums;
     private int ID;
@@ -17,19 +19,16 @@ public class Jsonoperation {
         }
         System.out.println("Izlazim iz JSONoperation");
     }
-    public String newJson(){
-        JSONObject item = new JSONObject();
-        item.put("name", "test");
-        item.put("description", "course1 ladida");
-
+    public String newJson(HashMap<String, String> maptoJson){
+        JSONObject item = new JSONObject(maptoJson);
         return item.toString();
     }
 
-    public static JSONArray getAlbums() {
+    public JSONArray getAlbums() {
         return albums;
     }
 
-    public static void setAlbums(JSONArray albums) {
+    public void setAlbums(JSONArray albums) {
         Jsonoperation.albums = albums;
     }
 

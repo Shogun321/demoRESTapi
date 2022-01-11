@@ -1,7 +1,6 @@
 package com.sender;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -16,18 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Sender {
-
     // one instance, reuse
     private final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .build();
     private static HttpResponse<String> response;
+    private static String logincredentials = getMd5("vladimir.111");//username . password
     public Sender() {
-        /*HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.github.com/users/defunkt")).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body).thenApply(Sender::parse).join();*/
-        System.out.println("Testing 2 - Send Http POST request");
         try {//update load data once/first
             update();
         }catch (Exception e){
@@ -37,37 +31,26 @@ public class Sender {
     private void update() throws Exception {
         // form parameters
         Map<Object, Object> data = new HashMap<>();
-        String auth=getMd5("vladimir.111");//username . password
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(buildFormDataFromMap(data))
                 .uri(URI.create("http://skupinska.c1.biz/tasks"))
                 .setHeader("Content-Type", "text/json")
-                .setHeader("auth-token", auth)
+                .setHeader("auth-token", logincredentials)
                 .build();
         //response updates here
         response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        // print status code from server
-        System.out.println(response.statusCode());
     }
-    public void newtask(String logincredentials,String jsondata) {
+    public void newtask(String jsondata) {
         try{
-            var values = new HashMap<String, String>() {{
-                put("name", "Mira Pavlovic");
-                put ("description", "Gore gore gore");
-            }};
-            Map<String, String> data = new HashMap<>(values);
-            /*var objectMapper = new ObjectMapper();
-            String requestBody = objectMapper
-                    .writeValueAsString(values);*/
-            //buildFormDataFromMap(data)
-            String auth=getMd5(logincredentials);//username . password
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://skupinska.c1.biz/tasks"))
+                    .uri(URI.create("http://skupinska.c1.biz/add_task"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsondata))
                     .setHeader("Content-Type", "text/json; utf-8")
-                    .setHeader("auth-token", auth)
+                    .setHeader("auth-token", logincredentials)
                     .build();
+            System.out.println("Ispisujem jsondata: "+jsondata);
             //response updates here
+            System.out.println();
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("Ispisujem response:");
             System.out.println(response.body());
@@ -77,6 +60,54 @@ public class Sender {
             // print status code from server
             System.out.println(response.statusCode());
         }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void delete(String jsondata){
+        try{
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://skupinska.c1.biz/delete_task"))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsondata))
+                    .setHeader("Content-Type", "text/json; utf-8")
+                    .setHeader("auth-token", logincredentials)
+                    .build();
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void edit(String jsondata) {
+        try{
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://skupinska.c1.biz/edit_task"))
+                    .POST(HttpRequest.BodyPublishers.ofString(jsondata))
+                    .setHeader("Content-Type", "text/json; utf-8")
+                    .setHeader("auth-token", logincredentials)
+                    .build();
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void login(String newLogininformation){
+        try{
+            logincredentials = getMd5(newLogininformation);
+            Map<Object, Object> data = new HashMap<>();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://skupinska.c1.biz/login"))
+                    .POST(buildFormDataFromMap(data))
+                    .setHeader("Content-Type", "text/json; utf-8")
+                    .setHeader("auth-token", logincredentials)
+                    .build();
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Ispisujem response:");
+            System.out.println(response.body());
+            System.out.println(response.request());
+            System.out.println(response.headers());
+            System.out.println(response.previousResponse());
+            // print status code from server
+            System.out.println(response.statusCode());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -108,6 +139,7 @@ public class Sender {
     //takes string and turns into JSON object
     public JSONArray parseJSON(){
         JSONArray albums = new JSONArray(response.body());
+
         /*for (int i = 0; i < albums.length(); i++) {
             JSONObject album=albums.getJSONObject(i);
             System.out.println("Evo album objekat:id:"+album.get("id")+" name:"+album.get("name")+" description:"
@@ -140,5 +172,13 @@ public class Sender {
             throw new RuntimeException(e);
         }
     }
+    public static String getLogincredentials() {
+        return logincredentials;
+    }
+
+    public static void setLogincredentials(String logincredentials) {
+        Sender.logincredentials = logincredentials;
+    }
+
 
 }
