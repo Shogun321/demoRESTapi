@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox id="parent" fx:id="parent" alignment="CENTER" prefHeight="680" prefWidth="480" spacing="20.0" stylesheets="@css.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demorestapi.TasksController">
+   <children>
+      <Pane id="loginPane" prefHeight="660.0" prefWidth="480.0">
+         <ScrollPane layoutX="28.0" layoutY="59.0" prefHeight="543.0" prefWidth="424.0">
+            <content>
+               <VBox id="scroller" prefHeight="545.0" prefWidth="408.0" />
+            </content>
+         </ScrollPane>
+         <Label alignment="CENTER" layoutX="213.0" layoutY="6.0" onMouseClicked="#logout" text="ODJAVA" textFill="#0d6efd" underline="true">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Label>
+         <Separator layoutX="20.0" layoutY="45.0" prefHeight="5.0" prefWidth="440.0" />
+         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="26.0" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="440.0" text="MIHA NOVAK" textAlignment="CENTER" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Label>
+      </Pane>
+      <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="53.0" styleClass="nav">
+         <children>
+            <VBox alignment="CENTER" layoutX="161.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMousePressed="#addTask" prefHeight="53.0" prefWidth="53.0" styleClass="nav_itm">
+               <ImageView id="add" fx:id="add" />
+            </VBox>
+            <VBox alignment="CENTER" layoutX="267.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMousePressed="#editTask" prefHeight="53.0" prefWidth="53.0" styleClass="nav_itm">
+               <ImageView id="edit" fx:id="edit" />
+            </VBox>
+            <VBox alignment="CENTER" layoutX="214.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMousePressed="#deleteTask" prefHeight="53.0" prefWidth="53.0" styleClass="nav_itm">
+               <ImageView id="del" fx:id="del" />
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</VBox>

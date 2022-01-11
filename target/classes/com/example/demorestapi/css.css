@@ -1,4 +1,27 @@
 .root{
-    -fx-background-color: linear-gradient(from 0px 0px to 40px 40px, repeat, #2b3e50 25%, #2b3e50 25%, #304355 50%, #304355 50%);
-    //-fx-background-color: #0e70fdff;
+    -fx-background-color: linear-gradient(from 0px 0px to 14px -12.65px, repeat, #2b3e50 50%, #2b3e50 50%, #304355 50%, #304355 50%);
+}
+
+.nav{
+    -fx-background-color: #0d6efd;
+}
+
+.nav_itm{
+    -fx-background-radius: 50%;
+    -fx-prefWidth: 47px;
+    -fx-prefHeight: 47px;
+}
+
+.nav_itm:hover{
+  -fx-background-color: #4f98fe;
+  -fx-background-radius: 40%;
+}
+
+.task{
+    -fx-background-color: #0d6efd;
+    -fx-border-color: #012c6a;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+    -fx-margin: 10px;
+
 }
