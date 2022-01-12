@@ -2,6 +2,7 @@ package com.sender;
 
 import com.example.demorestapi.utils.Callback;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -23,23 +24,23 @@ public class Sender {
     private static HttpResponse<String> response;
     private static String logincredentials = getMd5("bastrijan.111");//username . password
     public Sender() {
-        try {//update load data once/first
             update();
-        }catch (Exception e){
-            System.out.println(e);
-        }
     }
-    private void update() throws Exception {
-        // form parameters
-        Map<Object, Object> data = new HashMap<>();
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(buildFormDataFromMap(data))
-                .uri(URI.create("http://skupinska.c1.biz/tasks"))
-                .setHeader("Content-Type", "text/json")
-                .setHeader("auth-token", logincredentials)
-                .build();
-        //response updates here
-        response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    private void update() {
+        try{
+            // form parameters
+            Map<Object, Object> data = new HashMap<>();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(buildFormDataFromMap(data))
+                    .uri(URI.create("http://skupinska.c1.biz/tasks"))
+                    .setHeader("Content-Type", "text/json")
+                    .setHeader("auth-token", logincredentials)
+                    .build();
+            //response updates here
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void newtask(String jsondata) {
         try{
@@ -90,7 +91,8 @@ public class Sender {
             e.printStackTrace();
         }
     }
-    public void login(String newLogininformation){
+    public int login(String newLogininformation){
+        int error = 0;
         try{
             logincredentials = getMd5(newLogininformation);
             Map<Object, Object> data = new HashMap<>();
@@ -101,6 +103,8 @@ public class Sender {
                     .setHeader("auth-token", logincredentials)
                     .build();
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject responseasjson = new JSONObject(response.body());
+            error= (int) responseasjson.get("error_id");
             System.out.println("Ispisujem response:");
             System.out.println(response.body());
             System.out.println(response.request());
@@ -111,6 +115,8 @@ public class Sender {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        update();
+        return error;
     }
     //take object from post and turns to string
     private static HttpRequest.BodyPublisher buildFormDataFromMap(Map<Object, Object> data) {
@@ -177,8 +183,8 @@ public class Sender {
         return logincredentials;
     }
 
-    public static void setLogincredentials(String logincredentials) {
-        Sender.logincredentials = logincredentials;
+    public void setLogincredentials(String logincredentials) {
+        Sender.logincredentials = getMd5(logincredentials);
     }
 
 

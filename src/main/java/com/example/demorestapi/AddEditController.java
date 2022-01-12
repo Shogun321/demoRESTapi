@@ -57,7 +57,6 @@ public class AddEditController {
 
                     outName.setText(name.getText());
                     outDescription.setText(description.getText());
-
                     break;
                 }
             }
