@@ -1,6 +1,5 @@
 package com.sender;
 
-import com.example.demorestapi.utils.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,8 +22,7 @@ public class Sender {
             .build();
     private static HttpResponse<String> response;
     private static String logincredentials;//username . password
-    public Sender() {
-    }
+    public Sender() {}
     private void update() {
         try{
             // form parameters

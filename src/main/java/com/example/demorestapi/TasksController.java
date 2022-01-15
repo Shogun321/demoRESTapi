@@ -42,7 +42,7 @@ public class TasksController {
         for(Node node : parent.getChildren()){
             VBox task = (VBox)node;
             for(Node taskNode : task.getChildren())
-                if(taskNode.getId().equals(ID))
+                if (taskNode.getId().equals(ID))
                     taskNode.setVisible(value);
         }
     }
