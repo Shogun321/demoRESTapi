@@ -69,6 +69,6 @@ public class TasksController {
 
         App.state = App.State.NONE;
         App.stage.setScene(App.login);
-        //TODO API ODJAVA
+        App.sender.setLogincredentials("");
     }
 }

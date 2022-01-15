@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class AddEditController {
@@ -24,15 +23,6 @@ public class AddEditController {
     protected Button submit;
 
     @FXML
-    protected void onNewTaskButtonClick(){
-        /*For testing purposes, should */
-        HashMap<String, String> mapToJSON = new HashMap<>();
-        // Add keys and values (Country, City)
-        mapToJSON.put("name", "Hashmap");
-        mapToJSON.put("description", "Dela");
-        //sender.newtask(response.newJson(mapToJSON));
-    }
-    @FXML
     protected void cancel(){
         App.state = App.State.NONE;
         App.stage.setScene(App.tasks);
@@ -40,11 +30,16 @@ public class AddEditController {
 
     @FXML
     protected void submit() {
-        //TODO CALL API
+
         if(App.state == App.State.ADD){
             TaskData taskData = new TaskData(description.getText(), name.getText());
             Utils.addTask(taskData);
             App.state = App.State.NONE;
+
+            HashMap<String, String> mapToJSON = new HashMap<>();
+            mapToJSON.put("name", name.getText());
+            mapToJSON.put("description", description.getText());
+            App.sender.newtask(App.jsonoperator.newJsonObject(mapToJSON));
         }
 
         else{ //EDIT

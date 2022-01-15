@@ -45,10 +45,6 @@ public class LoginController {
                 TaskData taskData = new TaskData(name, description);
                 Utils.addTask(taskData);
             }
-            HashMap<String, String> mapToJSON = new HashMap<>();
-            mapToJSON.put("name", "Novi task.");
-            mapToJSON.put("description", "radi ovaj task");
-            App.sender.newtask(App.jsonoperator.newJson(mapToJSON));
         }
     }
 }
