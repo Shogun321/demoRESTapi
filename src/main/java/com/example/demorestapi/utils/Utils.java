@@ -3,17 +3,17 @@ package com.example.demorestapi.utils;
 import com.example.demorestapi.App;
 import com.example.demorestapi.TaskData;
 import javafx.geometry.Pos;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.util.HashMap;
+
 public final class Utils {
 
-    public static final String ID_TRASH = "56", ID_EDIT = "8tr4", ID_NAME = "jij", ID_DESCRIPTION = "iu";
+    public static final String ID_TRASH = "56", ID_EDIT = "8tr4", ID_NAME = "jij", ID_DESCRIPTION = "iu", ID_TASK = "uoioj";
 
     private Utils(){}
 
@@ -31,6 +31,8 @@ public final class Utils {
         lName.setId(ID_NAME);
         Label lDescription = new Label(taskData.description);
         lDescription.setId(ID_DESCRIPTION);
+        Label ID = new Label(taskData.id);
+        ID.setId(ID_TASK);
 
         ImageView delImg = new ImageView(App.trashImg);
         delImg.setFitWidth(38);
@@ -42,8 +44,7 @@ public final class Utils {
         imgHolder.setAlignment(delImg, Pos.CENTER_LEFT);
         imgHolder.setVisible(false);
         imgHolder.managedProperty().bind(newTask.visibleProperty());
-        final StackPane tmp = imgHolder;
-        delImg.setOnMouseClicked(mouseEvent -> editRemoveClick(tmp));
+        delImg.setOnMouseClicked(mouseEvent -> editRemoveClick(newTask));
         newTask.getChildren().add(imgHolder);
 
         ImageView editImg = new ImageView(App.editImg);
@@ -56,40 +57,55 @@ public final class Utils {
         imgHolder.setAlignment(editImg, Pos.CENTER_LEFT);
         imgHolder.setVisible(false);
         imgHolder.managedProperty().bind(newTask.visibleProperty());
-        final StackPane tmp2 = imgHolder;
-        editImg.setOnMouseClicked(mouseEvent -> editRemoveClick(tmp2));
+        editImg.setOnMouseClicked(mouseEvent -> editRemoveClick(newTask));
 
         newTask.getChildren().add(imgHolder);
+        newTask.getChildren().add(ID);
         newTask.getChildren().add(lName);
         newTask.getChildren().add(lDescription);
 
         taskHolder.getChildren().add(newTask);
     }
 
+    public static void alert(String msg){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setTitle(msg);
+        a.setAlertType(Alert.AlertType.CONFIRMATION);
+        a.show();
+    }
+
     private static void startEditMode(VBox taskHolder){
         App.tmpEdit = taskHolder;
         TextField name = (TextField)App.addEdit.lookup("#name");
         TextArea description = (TextArea)App.addEdit.lookup("#description");
+        Label id = (Label)App.addEdit.lookup("#taskID");
 
         Label inName = (Label)taskHolder.lookup("#" + ID_NAME),
-                inDescription = (Label)taskHolder.lookup("#" + ID_DESCRIPTION);
+                inDescription = (Label)taskHolder.lookup("#" + ID_DESCRIPTION),
+                inId = (Label)taskHolder.lookup("#" + ID_TASK);
 
         name.setText(inName.getText());
         description.setText(inDescription.getText());
+        id.setText(inId.getText());
 
         App.state = App.State.EDIT;
         App.stage.setScene(App.addEdit);
     }
 
-    private static void editRemoveClick(StackPane node){
-        VBox parent = (VBox)App.tasks.lookup("#scroller");
+    private static void editRemoveClick(VBox parent){
+        VBox controller = (VBox)App.tasks.lookup("#scroller");
 
         if(App.state == App.State.EDIT)
-            startEditMode((VBox)node.getParent());
+            startEditMode(parent);
 
         else if(App.state == App.State.REMOVE) {
-            parent.getChildren().remove(node.getParent());
-            //TODO removeRequest
+            String id = ((Label)parent.lookup("#" + ID_TASK)).getText();
+
+            HashMap<String, String> mapToJSON = new HashMap<>();
+            mapToJSON.put("task_id", id);
+            App.sender.delete(App.jsonoperator.newJsonObject(mapToJSON));
+
+            controller.getChildren().remove(parent);
         }
     }
 

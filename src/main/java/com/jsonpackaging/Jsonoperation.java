@@ -9,17 +9,20 @@ public class Jsonoperation {
     private static JSONArray albums;
     private int ID;
     private String name, description, task_date;
-    public Jsonoperation(JSONArray array) {
+    public Jsonoperation() {
         System.out.println("Usao sam u Jsonoperation");
-        albums=array;
-        for (int i = 0; i < albums.length(); i++) {
+
+        /*for (int i = 0; i < albums.length(); i++) {
             JSONObject album=albums.getJSONObject(i);
             System.out.println("Evo album objekat:id:"+album.get("id")+" name:"+album.get("name")+" description:"
                     +album.get("description")+" task_date:"+album.get("task_date"));
-        }
+        }*/
         System.out.println("Izlazim iz JSONoperation");
     }
-    public String newJson(HashMap<String, String> maptoJson){
+    public void setJSONArray(JSONArray array){
+        albums=array;
+    }
+    public String newJsonObject(HashMap<String, String> maptoJson){
         JSONObject item = new JSONObject(maptoJson);
         return item.toString();
     }

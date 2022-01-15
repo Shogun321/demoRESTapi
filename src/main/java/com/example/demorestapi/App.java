@@ -1,18 +1,22 @@
 package com.example.demorestapi;
 
+import com.example.demorestapi.utils.Utils;
 import com.jsonpackaging.Jsonoperation;
 import com.sender.Sender;
-
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class App extends Application {
     public static Jsonoperation jsonoperator;
@@ -29,12 +33,13 @@ public class App extends Application {
 
     public static Image trashImg, editImg;
     public static VBox tmpEdit;
+    public static int tmpId;
 
     @Override
     public void start(Stage stage) throws IOException {
         //init sender
         sender = new Sender();
-        jsonoperator = new Jsonoperation(sender.parseJSON());
+        jsonoperator = new Jsonoperation();
 
         App.stage = stage;
         initScenes();
@@ -91,5 +96,25 @@ public class App extends Application {
 
         trashImg = new Image(new FileInputStream("res/trash.png"));
         editImg = new Image(new FileInputStream("res/edit.png"));
+    }
+
+    public static void refresh(){
+        VBox parent = (VBox)tasks.lookup("#scroller");
+        while(parent.getChildren().size() > 0)
+            parent.getChildren().remove(0);
+
+        //this makes error when bad credentials are passed
+        JSONArray backData = sender.parseJSON();
+        for (int i = 0; i < backData.length(); i++) {
+            JSONObject obj = backData.getJSONObject(i);
+
+            String name = obj.getString("name"),
+                    description = obj.getString("description") +
+                            "\nDATUM: " + obj.getString("task_date"),
+                    id = obj.getString("id");
+
+            TaskData taskData = new TaskData(name, description, id);
+            Utils.addTask(taskData);
+        }
     }
 }

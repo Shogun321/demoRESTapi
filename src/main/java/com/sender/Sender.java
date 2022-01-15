@@ -1,6 +1,5 @@
 package com.sender;
 
-import com.example.demorestapi.utils.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,10 +21,8 @@ public class Sender {
             .version(HttpClient.Version.HTTP_2)
             .build();
     private static HttpResponse<String> response;
-    private static String logincredentials = getMd5("bastrijan.111");//username . password
-    public Sender() {
-            update();
-    }
+    private static String logincredentials;//username . password
+    public Sender() {}
     private void update() {
         try{
             // form parameters
@@ -147,12 +144,6 @@ public class Sender {
     public JSONArray parseJSON(){
         JSONArray albums = new JSONArray(response.body());
 
-        /*for (int i = 0; i < albums.length(); i++) {
-            JSONObject album=albums.getJSONObject(i);
-            System.out.println("Evo album objekat:id:"+album.get("id")+" name:"+album.get("name")+" description:"
-                    +album.get("description")+" task_date:"+album.get("task_date"));
-        }
-        System.out.println("Evo novi red");*/
         return albums;
     }
     //turns string to MD5 bullshit

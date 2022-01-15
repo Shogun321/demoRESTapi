@@ -1,12 +1,12 @@
 package com.example.demorestapi;
 
 import com.example.demorestapi.utils.Utils;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class AddEditController {
@@ -24,14 +24,8 @@ public class AddEditController {
     protected Button submit;
 
     @FXML
-    protected void onNewTaskButtonClick(){
-        /*For testing purposes, should */
-        HashMap<String, String> mapToJSON = new HashMap<>();
-        // Add keys and values (Country, City)
-        mapToJSON.put("name", "Hashmap");
-        mapToJSON.put("description", "Dela");
-        //sender.newtask(response.newJson(mapToJSON));
-    }
+    protected Label taskID;
+
     @FXML
     protected void cancel(){
         App.state = App.State.NONE;
@@ -40,16 +34,31 @@ public class AddEditController {
 
     @FXML
     protected void submit() {
-        //TODO CALL API
+
         if(App.state == App.State.ADD){
-            TaskData taskData = new TaskData(description.getText(), name.getText());
+            TaskData taskData = new TaskData(description.getText(), name.getText(), taskID.getText());
             Utils.addTask(taskData);
             App.state = App.State.NONE;
+
+            HashMap<String, String> mapToJSON = new HashMap<>();
+            mapToJSON.put("name", name.getText());
+            mapToJSON.put("description", description.getText());
+            App.sender.newtask(App.jsonoperator.newJsonObject(mapToJSON));
         }
 
         else{ //EDIT
-            for(Node node : ((VBox)App.tasks.lookup("#scroller")).getChildren()){
+            HashMap<String, String> mapToJSON = new HashMap<>();
+            mapToJSON.put("task_id", taskID.getText());
+            mapToJSON.put("name", name.getText());
+            mapToJSON.put("description", description.getText());
+            App.sender.edit(App.jsonoperator.newJsonObject(mapToJSON));
+
+            ObservableList<Node> items = ((VBox)App.tasks.lookup("#scroller")).getChildren();
+            for(int i = 0; i < items.size(); i++){
+                Node node = items.get(i);
+
                 if(node == App.tmpEdit){
+                    App.tmpId = i;
                     VBox vbox = (VBox) node;
 
                     Label outName = (Label)vbox.lookup("#" + Utils.ID_NAME),
@@ -61,7 +70,6 @@ public class AddEditController {
                 }
             }
         }
-
 
         App.stage.setScene(App.tasks);
     }
