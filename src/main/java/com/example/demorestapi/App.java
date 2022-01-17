@@ -109,8 +109,7 @@ public class App extends Application {
             JSONObject obj = backData.getJSONObject(i);
 
             String name = obj.getString("name"),
-                    description = obj.getString("description") +
-                            "\nDATUM: " + obj.getString("task_date"),
+                    description = obj.getString("description") ,
                     id = obj.getString("id");
 
             TaskData taskData = new TaskData(name, description, id);

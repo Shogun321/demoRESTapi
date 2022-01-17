@@ -87,6 +87,13 @@ public class Sender {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Ispisujem response:");
+        System.out.println(response.body());
+        System.out.println(response.request());
+        System.out.println(response.headers());
+        System.out.println(response.previousResponse());
+        // print status code from server
+        System.out.println(response.statusCode());
     }
     public int login(String newLogininformation){
         int error = 0;
